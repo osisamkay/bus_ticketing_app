@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { CreateBusRoute } from "../app/_components/create-bus-route";
+import { CreateBus } from "./_components/create-bus";
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
@@ -67,6 +69,7 @@ async function CrudShowcase() {
   if (!session?.user) return null;
 
   const latestPost = await api.post.getLatest();
+  const buses = await api.buses.getAll();
 
   return (
     <div className="w-full max-w-xs">
@@ -75,8 +78,10 @@ async function CrudShowcase() {
       ) : (
         <p>You have no posts yet.</p>
       )}
-
+      {buses.length}
       <CreatePost />
+      <CreateBusRoute />
+      <CreateBus />
     </div>
   );
 }
